@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myapp-argo-application
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://gitlab.cc-asp.fraunhofer.de/IPT_300/322edge.git
+    targetRevision: cicd_gitlab_helm_argocd
+    path: manifests/test-login-app/templates
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: myapp
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,26 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-logindep
+  labels:
+    app: logindep
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: logindep
+  template:
+    metadata:
+      labels:
+        app: logindep
+    spec:
+      containers:
+      - name: sample
+        image: {{ .Values.image.repository }}
+        ports: 
+          - containerPort: 8080
+      imagePullSecrets:
+      - name: helm-secret
+
+

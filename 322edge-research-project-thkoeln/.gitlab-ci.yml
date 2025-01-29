@@ -1,0 +1,40 @@
+variables:
+  APP_NAME: research-project-thkoeln
+  IMAGE_TAG: container-registry.gitlab.cc-asp.fraunhofer.de/ipt_300/322edge/$APP_NAME:$CI_COMMIT_SHORT_SHA
+
+stages:
+  - build
+  - update_and_deploy
+
+build_image:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - docker build -t "$IMAGE_TAG" -f "$CI_PROJECT_DIR/application/Dockerfile" "$CI_PROJECT_DIR/application"
+    - docker push "$IMAGE_TAG"
+
+
+update_and_deploy:
+  stage: update_and_deploy
+  image: ubuntu:22.04
+  before_script:
+    - apt-get update -y && apt-get install -y openssh-client git
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H gitlab.cc-asp.fraunhofer.de >> ~/.ssh/known_hosts
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - git config --global user.email "md.hazrat.ali@ipt.fraunhofer.de"
+    - git config --global user.name "mdh02077"
+    - git clone --branch research-project-thkoeln git@gitlab.cc-asp.fraunhofer.de:IPT_300/322edge.git
+    - cd 322edge/manifests
+
+  script:
+    - sed -i "s/research-project-thkoeln:.*/research-project-thkoeln:${CI_COMMIT_SHORT_SHA}/g" test-login-app/values.yaml
+    - git add test-login-app/values.yaml
+    - git commit -m "Update image to ${CI_COMMIT_SHORT_SHA} [skip ci]" || echo "No changes to commit"
+    - git push origin research-project-thkoeln
