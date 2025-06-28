@@ -1,4 +1,4 @@
-## Performance Optimization of Cloud-Native CI/CD Pipelines: A Comparative Study of GitOps and Traditional Approaches 
+# Performance Optimization of Cloud-Native CI/CD Pipelines: A Comparative Study of GitOps and Traditional Approaches 
 
                                             RESEARCH PROJECT by
                                             Md Hazrat Ali
