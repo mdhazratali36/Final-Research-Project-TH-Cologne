@@ -11,3 +11,7 @@ submitted as a requirement for MASTER OF SCIENCE (M.SC.)at TH KÖLN UNIVERSITY O
                                           Second supervisor: Talib SANKAL
                                           Fraunhofer IPT, Aachen, Germany
                                           Cologne, February 2025
+
+This research enhances our understanding of cloud-native CI/CD practices by illustrating the differences between GitOps and traditional approaches across various development environments. Additionally, it provides practical advice for applying these strategies. The results offer clear recommendations for companies seeking to improve their CI/CD processes and adopt current DevOps methodologies.
+
+### Keywords: GitOps, CI/CD, Cloud-Native, Performance Optimization, Kubernetes, Prometheus, Grafana, Helm, Argo CD.                                      
