@@ -21,14 +21,14 @@ This project compares the performance of traditional CI/CD pipelines (using Jenk
 
 **Traditional CI/CD Pipeline:**
 
-![Traditional CI/CD Diagram](figures/traditional_cicd.png)
+![Traditional CI/CD Diagram](figures/Traditional%20CI-CD.jpg)
 <sub>Jenkins orchestrates build, Docker image creation, pushes to registry, deploys to Kubernetes. Monitored via Prometheus & Grafana.</sub>
 
 ---
 
 **GitOps CI/CD Pipeline:**
 
-![GitOps CI/CD Diagram](figures/gitops_cicd.png)
+![GitOps CI/CD Diagram](figures/GitOps%20CI-CD.png)
 <sub>GitLab manages code and pipeline, ArgoCD syncs deployment state to Kubernetes. Monitoring via Prometheus & Grafana.</sub>
 
 
