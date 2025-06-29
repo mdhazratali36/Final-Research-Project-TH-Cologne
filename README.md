@@ -130,7 +130,8 @@ This project compares the performance of traditional CI/CD pipelines (using Jenk
   - GitOps (ArgoCD) pipeline showed better consistency and lower operational overhead than Jenkins as app complexity increased.
 
 **Graphs:**  
-![Pipeline Execution Time](figures/jenkins vs gitops comparison.png)
+![Pipeline Execution Time](figures/jenkins%20vs%20gitops%20comparison.png)
+
 <sub>(Add your performance comparison charts here)</sub>
 
 **Summary Table:**  
