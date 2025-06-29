@@ -1,3 +1,13 @@
+# Performance Optimization of Cloud-Native CI/CD Pipelines: A Comparative Study of GitOps and Traditional Approaches
+
+## Overview
+
+This project compares the performance of traditional CI/CD pipelines (using Jenkins) versus modern GitOps pipelines (using ArgoCD) in cloud-native environments. The goal is simple: **find out which approach delivers faster, more reliable, and more scalable software deployments—using real implementation and actual performance metrics.**
+
+
+
+
+
 # CI/CD Pipeline Implementation
 
 This project demonstrates the implementation of a CI/CD pipeline using Kubernetes, GitLab, Helm, ArgoCD, Prometheus, and Grafana. The pipeline automates the deployment of applications in a Kubernetes cluster, with monitoring and visualization tools to ensure smooth operations.
