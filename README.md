@@ -33,3 +33,103 @@ This project compares the performance of traditional CI/CD pipelines (using Jenk
 - [Conclusion / Recommendations](#conclusion--recommendations)
 - [Usage / Repo Structure](#usage--repo-structure)
                                      
+## Architecture Diagrams
+
+**Traditional CI/CD Pipeline:**
+
+![Traditional CI/CD Diagram](figures/traditional_cicd.png)
+<sub>Jenkins orchestrates build, Docker image creation, pushes to registry, deploys to Kubernetes. Monitored via Prometheus & Grafana.</sub>
+
+---
+
+**GitOps CI/CD Pipeline:**
+
+![GitOps CI/CD Diagram](figures/gitops_cicd.png)
+<sub>GitLab manages code and pipeline, ArgoCD syncs deployment state to Kubernetes. Monitoring via Prometheus & Grafana.</sub>
+
+
+## Tech Stack
+
+- **Jenkins** – Traditional CI/CD orchestration
+- **ArgoCD** – GitOps-based Continuous Delivery
+- **GitLab** – Source code, CI config, Docker registry
+- **Docker** – Containerization
+- **Kubernetes** – Orchestration & deployment
+- **Helm** – Kubernetes package management
+- **Prometheus** – Monitoring
+- **Grafana** – Visualization
+
+## Implementation
+
+
+### Traditional CI/CD Pipeline (Jenkins)
+
+**Step-by-step:**
+
+1. **Repository & Code Management**  
+   - Node.js app code managed in a GitLab repo.
+   - Includes Dockerfile and Kubernetes YAML manifests.
+2. **Provision VMs (OpenStack)**
+   - Separate VMs for Jenkins, Docker, Kubernetes.
+3. **Containerization**
+   - Dockerfile builds app image.
+   - Image pushed to GitLab Container Registry.
+4. **Kubernetes Cluster Setup**
+   - Cluster set up with `kubeadm`.
+   - Deployment & Service YAMLs used for app rollout.
+5. **Configure Jenkins Pipeline**
+   - Jenkinsfile automates:  
+     - Clone from GitLab  
+     - Build Docker image  
+     - Push image  
+     - Deploy to K8s using `kubectl`
+   - **Sample Jenkinsfile:**  
+     ```groovy
+     pipeline {
+       agent any
+       stages {
+         stage('Checkout') { steps { /* code */ } }
+         stage('Build') { steps { /* code */ } }
+         stage('Push') { steps { /* code */ } }
+         stage('Deploy') { steps { /* code */ } }
+       }
+     }
+     ```
+6. **Monitoring**
+   - Prometheus collects metrics from Jenkins/K8s.
+   - Grafana dashboards visualize pipeline execution time, resource usage.
+
+**Diagrams:**  
+- Jenkins pipeline stages (add screenshots or diagrams)
+- Grafana charts (pipeline timing, resource usage)
+
+
+### GitOps Pipeline (ArgoCD)
+
+**Step-by-step:**
+
+1. **Repository Setup**  
+   - GitLab repo with code, Dockerfile, `.gitlab-ci.yml`, Kubernetes manifests/Helm charts.
+2. **Provision VMs**
+   - VMs for Kubernetes and ArgoCD (via OpenStack).
+3. **CI Configuration (GitLab CI)**
+   - `.gitlab-ci.yml` builds/pushes Docker image, updates manifests.
+   - Triggers CD process.
+   - **Sample `.gitlab-ci.yml`:**
+     ```yaml
+     stages:
+       - build
+       - push
+     build:
+       script:
+         - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG .
+     push:
+       script:
+         - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+     ```
+4. **CD via ArgoCD**
+   - ArgoCD continuously syncs K8s cluster to match Git repo (declarative).
+   - Rollbacks & drift correction are automatic.
+   - **Diagram:** ArgoCD dashboard screenshot (add as image)
+5. **Monitoring**
+   - Prometheus & Grafana for real-time metrics and dashboarding.
